@@ -1,0 +1,11 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "ecommerce",
+  "main": "index.js",
+  "scripts": {
+     "dev": "concurrently \"npm run server\" "
+  },
+  "author": "giga",
+  "license": "ISC"
+}
