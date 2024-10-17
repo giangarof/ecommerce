@@ -121,19 +121,43 @@ const UpdateUserProfile = async(req,res) => {
 const getUserProfileById = async(req,res) => {
     const {id} = req.params;
     const user = await User.findById(id)
-    res.status(200).json(user)
+    if(!user){
+        res.status(404).json({message:`User doesn't exist`})
+    }
+    if(user){
+
+        res.status(200).json(user)
+    }
 }
 
 // Update user profile by id
 // description: update any user by id
-const UpdateUserProfileById = (req,res) => {
-    res.send(200).json({message:'update by id'})
+const UpdateUserProfileById = async(req,res) => {
+    const {id} = req.params;
+    const user = await User.findById(id)
+    if(!user){
+        res.status(404).json({message:`User doesn't exist`})
+    }
+    if(user){
+        user.name = req.body.name         
+        user.email = req.body.email 
+        user.isAdmin = req.body.isAdmin
+    }
+    res.status(200).json({message:'User updated successfully!', data:user})
 }
 
 // Delete User
 // description: delete user
-const deleteUser = (req,res) => {
-    res.send(200).json({message:'delete'})
+const deleteUser = async(req,res) => {
+    const {id} = req.params;
+    const user = await User.findById(id)
+    if(!user){
+        res.status(404).json({message:`User doesn't exist`})
+    }
+    if(user) {
+        await user.deleteOne()
+        res.status(200).json({message:'delete'})
+    }
 }
 
 export{
