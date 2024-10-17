@@ -3,6 +3,6 @@ import {storage} from './cloudinary.js';
 
 const upload = multer({storage:storage});
 
-const multerPost = upload.array("image");
+const multerProduct = upload.array("image");
 
-export {multerPost}
+export {multerProduct}
