@@ -49,23 +49,48 @@ const getOrderById = async(req,res)=> {
     }
 }
 
-const updateOrderToPay = (req,res) => {
+const updateOrderToPaid = async(req,res) => {
+    const order = await Order.findById(req.params.id);
 
+    if(order){
+        order.isPaid = true;
+        order.paidAt = Date.now()
+        order.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address
+        };
+        const updatedOrder = await order.save();
+        res.status(200).json({message:'Order successfully paid.', order_paid: updatedOrder})
+    } else {
+        res.status(404).json({message:'Order not found'})
+    }
 }
 
-const updateOrderToDelivered = (req,res) => {
+const updateOrderToDelivered = async(req,res) => {
+    const order = await Order.findById(req.params.id)
+    if(order){
+        order.deliver = true;
+        order.deliveredAt = Date.now()
 
+        const updatedOrder = await order.save()
+        res.status(200).json({message:'Order successfully to be delivered.', update_delivered:updatedOrder})
+    } else {
+        res.status(404).json({message:`Order not found.`})
+    }
 }
 
-const getAllOrders = (req,res) => {
-
+const getAllOrders = async(req,res) => {
+    const orders = await Order.find({}).populate('user', 'id name');
+    res.status(200).json(orders)
 }
 
 export{
     addOrderItems,
     getMyOrders,
     getOrderById,
-    updateOrderToPay,
+    updateOrderToPaid,
     updateOrderToDelivered,
     getAllOrders
 }

@@ -28,6 +28,7 @@ app.use(cookieParser())
 app.use('/api/products', Products)
 app.use('/api/user', User)
 app.use('/api/order', Order)
+app.get('/api/config/paypal', (req,res) => res.send({clientId: process.env.PAYPAL_CLIENT_ID}))
 
 // error handler middleware
 app.use(notFound)
