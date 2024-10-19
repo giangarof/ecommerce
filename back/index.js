@@ -1,9 +1,14 @@
 
 // Dependencies
+import dotenv from 'dotenv'
+import path from "path"
 import express from "express";
 import connectDB from "./Config/db.js";
-import dotenv from 'dotenv'
 import cookieParser from "cookie-parser"
+
+// setting the configuration
+dotenv.config()
+connectDB()
 
 // middleware
 import { notFound, errorHandler } from "./Config/middleware.js";
@@ -13,10 +18,7 @@ import Products from './MCV/Routes/Product.js'
 import User from "./MCV/Routes/User.js";
 import Order from "./MCV/Routes/Order.js";
 
-// setting the configuration
-dotenv.config()
 const app = express()
-connectDB()
 
 // app.use()
 // parsing json
@@ -35,5 +37,5 @@ app.use(notFound)
 app.use(errorHandler)
 
 // Running port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`running on port ${port}`))
