@@ -10,8 +10,9 @@ const getProducts = async(req,res) => {
 
 // get by id
 // get the product by id
-const getProductById = (req,res) => {
-    res.status(200).json({message:'By Id'})
+const getProductById = async(req,res) => {
+    const product = await Product.findById(req.params.id)
+    res.status(200).json({message:'Product by id', product:product})
 }
 
 // create

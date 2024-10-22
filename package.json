@@ -6,7 +6,7 @@
   "scripts": {
     "back": "nodemon back/index.js",
     "front": "npm run front --prefix front",
-    "dev": "concurrently \"npm run back\" \"npm run back\""
+    "dev": "concurrently \"npm run back\" \"npm run front\""
   },
   "author": "giga",
   "license": "ISC",
