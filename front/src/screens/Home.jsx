@@ -4,6 +4,8 @@ import {Row, Col} from 'react-bootstrap'
 
 //components
 import Product from '../components/Product.jsx'
+import Loader from '../components/Loader.jsx'
+import Message from '../components/Message.jsx'
 
 //slice
 import { useGetProductsQuery } from '../slices/productApiSlice.js'
@@ -16,11 +18,11 @@ export default function Home() {
     <>
         {isLoading ? (
             <>
-                <h2>Loading...</h2>
+                <Loader/>
             </>) : 
         isError ? (
             <>
-                 <h2>{isError}</h2>
+                 <Message variant='danger'>{isError}</Message>
             </>) : (
             <>
                 <h1>Latest Books</h1>

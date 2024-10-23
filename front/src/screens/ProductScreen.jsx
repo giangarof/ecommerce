@@ -1,10 +1,17 @@
+//react
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
-
 import { Link } from 'react-router-dom';
+
+//css
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
+//components
 import Rating from '../components/Rating.jsx';
+import Loader from '../components/Loader.jsx'
+import Message from '../components/Message.jsx'
+
+//redux
 import { useGetProductByIdQuery } from '../slices/productApiSlice.js';
 
 
@@ -16,11 +23,11 @@ export default function ProductScreen() {
     <>
         {isLoading ? (
             <>
-            <h3>Is loading...</h3>
+            <Loader/>
             </> 
         ) : isError ? (
             <>
-            {isError}
+            <Message variant='danger'>{isError}</Message>
             </> 
         ) : (
             <>
@@ -33,7 +40,7 @@ export default function ProductScreen() {
                     {/* {Array.isArray(product.image) && product.image.length > 0 && (
 
                     )} */}
-                    <Image src={product?.product.image[0].url} alt={product.name} fluid/>
+                    <Image src={product.image[0].url} alt={product.name} fluid/>
                     </Col>
 
                     <Col md={4}>

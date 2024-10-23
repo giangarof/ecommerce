@@ -23,7 +23,7 @@ const getProducts = async(req,res) => {
 // get the product by id
 const getProductById = async(req,res) => {
     const product = await Product.findById(req.params.id)
-    res.status(200).json({message:'Product by id', product:product})
+    res.status(200).json(product)
 }
 
 // create
