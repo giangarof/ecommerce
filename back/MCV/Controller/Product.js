@@ -4,8 +4,19 @@ import User from "../Model/User.js"
 // fetch all products
 // description: list all products
 const getProducts = async(req,res) => {
-    const product = await Product.find({})
-    res.status(200).json(product)
+    try {
+        const product = await Product.find({})
+        if(!product){
+            res.status(404).json({message:'No products'})
+        }
+        if(product){
+            res.status(200).json(product)
+        }
+    } catch (error) {
+        res.status(404)
+        throw new Error(error)
+        // res.status(404).json({message:'something went wrong', error:error})
+    }
 }
 
 // get by id
