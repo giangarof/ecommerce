@@ -12,9 +12,9 @@ const loginUser = async(req,res) => {
         const user = await User.findOne({ email });
         if(user && (await user.matchPassword(password))){
             generateToken(res, user._id)
-            res.status(200).send({message:'Welcome back!', profile: user})
+            res.status(200).send(user)
         } else{
-            res.status(404).send(`User not found.`)
+            res.status(404).send(`Invalid credentials.`)
         }
         // res.status(200).json({message:'user found', user:user})
         
@@ -39,12 +39,12 @@ const signupUser = async(req,res) => {
             res.status(400).json({message:'Email already in use. Please, use another email.'})
         } else {
             const newUser = await User.create({name,email,password})
-            res.status(201).json({message: "User created successfully! Please, Login.", created: newUser ? newUser : "Something went wrong, Try again."})
+            res.status(201).json(newUser)
             // console.log(req.body)
         }
         
     } catch (error) {
-        res.status(400).send({message:`error in signup controller: ${error}`})
+        res.status(400).send({message:`Please fill up all fields.`})
     }
 
 

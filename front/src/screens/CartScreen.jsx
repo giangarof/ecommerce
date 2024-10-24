@@ -13,7 +13,7 @@ import { FaTrash } from 'react-icons/fa'
 import Message from '../components/Message'
 
 //slices
-import { addTocart } from '../slices/cartSlice'
+import { addTocart, removeFromCart } from '../slices/cartSlice'
 
 export default function CartScreen() {
     const navigate = useNavigate()
@@ -24,6 +24,14 @@ export default function CartScreen() {
 
     const addQtyHandler = async(item, qty) => {
         dispatch(addTocart({...item, qty}))
+    }
+
+    const removeFromCartHandler = async(id) => {
+        dispatch(removeFromCart(id))
+    }
+
+    const checkoutHandler = async() => {
+        navigate(`/login?redirect=/shipping`)
     }
 
   return (
@@ -61,7 +69,7 @@ export default function CartScreen() {
                                 </Col>
                                 <Col md={2}>
                                     <Button type='button' variant='ligth'>
-                                        <FaTrash/>
+                                        <FaTrash onClick={() => removeFromCartHandler(item._id)}/>
                                     </Button>
                                 </Col>
                             </Row>
@@ -78,7 +86,7 @@ export default function CartScreen() {
                         ${cartItems.reduce((acc,item) => acc+item.qty * item.price,0).toFixed(2)}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                        <Button type='button' className='btn-block' disabled={cartItems.length === 0}>
+                        <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
                             Proceed to checkout
                         </Button>
                     </ListGroup.Item>
