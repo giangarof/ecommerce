@@ -3,6 +3,7 @@ import Product from "../Model/Product.js";
 import Order from '../Model/Order.js';
 
 const addOrderItems = async(req,res) => {
+    const user = await User.findById(req.user.userId);
     const {
         orderItems,
         shippingAddress,
@@ -12,7 +13,7 @@ const addOrderItems = async(req,res) => {
         shippingPrice,
         totalPrice
     } = req.body;
-
+    
     if(orderItems && orderItems.length === 0){
         res.status(400).json({message:'No order items'})
     } else {
@@ -30,9 +31,12 @@ const addOrderItems = async(req,res) => {
             shippingPrice,
             totalPrice
         });
+        // console.log(order)
         const createOrder = await order.save()
+        // console.log(createOrder)
         res.status(201).json(createOrder)
     }
+
 }
 
 const getMyOrders = async(req,res) => {

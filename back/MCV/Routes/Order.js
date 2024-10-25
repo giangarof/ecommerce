@@ -3,7 +3,7 @@ import { asyncHandler, protect } from "../../Config/middleware.js";
 import { addOrderItems, getAllOrders, getMyOrders, getOrderById, updateOrderToDelivered, updateOrderToPaid } from "../Controller/Order.js";
 const router = express()
 
-router.post('/', asyncHandler(addOrderItems))
+router.post('/', protect, asyncHandler(addOrderItems))
 
 router.get('/', asyncHandler(getMyOrders))
 
