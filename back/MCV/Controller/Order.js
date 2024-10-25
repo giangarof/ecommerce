@@ -45,11 +45,17 @@ const getMyOrders = async(req,res) => {
 }
 
 const getOrderById = async(req,res)=> {
+    // const orders = await Order.find({ user: req.user.userId });
+    // res.json(orders);
     const orders = await Order.findById(req.params.id).populate('user','name email')
-    if(order){
-        res.status(200).json(orders)
-    } else{
-        res.status(404).json({message:"No order found"})
+    try {
+        if(orders){
+            res.status(200).json(orders)
+        } else{
+            res.status(404).json({message:"No order found"})
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
