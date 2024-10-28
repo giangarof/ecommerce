@@ -5,7 +5,7 @@ const router = express()
 
 router.post('/', protect, asyncHandler(addOrderItems))
 
-router.get('/', asyncHandler(getMyOrders))
+router.get('/mine', protect, asyncHandler(getMyOrders))
 
 router.get('/:id', protect, asyncHandler(getOrderById))
 

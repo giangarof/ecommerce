@@ -33,7 +33,7 @@ const addOrderItems = async(req,res) => {
         });
         // console.log(order)
         const createOrder = await order.save()
-        // console.log(createOrder)
+        console.log(createOrder)
         res.status(201).json(createOrder)
     }
 
@@ -41,6 +41,7 @@ const addOrderItems = async(req,res) => {
 
 const getMyOrders = async(req,res) => {
     const orders = await Order.find({user: req.user.userId})
+    console.log(req.user)
     res.status(200).json(orders)
 }
 
