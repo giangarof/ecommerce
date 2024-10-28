@@ -20,6 +20,8 @@ export default function Header() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    // console.log(userInfo)
+
     const [logoutApiCall] = useLogoutMutation()
 
     const logoutHandler = async() => {
