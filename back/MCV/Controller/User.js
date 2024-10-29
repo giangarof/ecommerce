@@ -12,7 +12,11 @@ const loginUser = async(req,res) => {
         const user = await User.findOne({ email });
         if(user && (await user.matchPassword(password))){
             generateToken(res, user._id)
-            res.status(200).send(user)
+            res.status(200).json({ 
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,})
         } else{
             res.status(404).send(`Invalid credentials.`)
         }
@@ -39,6 +43,7 @@ const signupUser = async(req,res) => {
             res.status(400).json({message:'Email already in use. Please, use another email.'})
         } else {
             const newUser = await User.create({name,email,password})
+            generateToken(res, newUser._id)
             res.status(201).json(newUser)
             // console.log(req.body)
         }
