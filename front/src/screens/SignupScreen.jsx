@@ -54,6 +54,7 @@ export default function SignupScreen() {
             }
         }
     }
+    
   return (
     <FormContainer>
         <h1>Sign Up</h1>

@@ -39,8 +39,8 @@ const createProduct = async(req,res) => {
     }));
     product.user = user
     const created = await product.save()
-    console.log(req.user)
-    res.status(200).json({message:'created', product:product})
+    // console.log(req.user)
+    res.status(200).json(product)
 }
 
 //update

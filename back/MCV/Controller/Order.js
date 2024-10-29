@@ -2,6 +2,11 @@ import User from "../Model/User.js";
 import Product from "../Model/Product.js";
 import Order from '../Model/Order.js';
 
+const getAllOrders = async(req,res) => {
+    const orders = await Order.find({}).populate('user', 'id name');
+    res.json(orders)
+}
+
 const addOrderItems = async(req,res) => {
     const user = await User.findById(req.user.userId);
     const {
@@ -82,19 +87,14 @@ const updateOrderToPaid = async(req,res) => {
 const updateOrderToDelivered = async(req,res) => {
     const order = await Order.findById(req.params.id)
     if(order){
-        order.deliver = true;
+        order.isDelivered = true;
         order.deliveredAt = Date.now()
 
         const updatedOrder = await order.save()
-        res.status(200).json({message:'Order successfully to be delivered.', update_delivered:updatedOrder})
+        res.status(200).json(updatedOrder)
     } else {
         res.status(404).json({message:`Order not found.`})
     }
-}
-
-const getAllOrders = async(req,res) => {
-    const orders = await Order.find({}).populate('user', 'id name');
-    res.status(200).json(orders)
 }
 
 export{

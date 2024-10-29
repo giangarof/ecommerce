@@ -10,7 +10,13 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 
 //slice
-import { useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from '../slices/orderApiSlice'
+import { 
+    useGetOrderDetailsQuery, 
+    useGetPayPalClientIdQuery, 
+    usePayOrderMutation, 
+    useDeliverOrderMutation,
+
+ } from '../slices/orderApiSlice'
 import { Col, ListGroup, Row, Image, Card, Button } from 'react-bootstrap'
 
 //paypal
@@ -21,7 +27,8 @@ import { toast } from 'react-toastify'
 export default function OrderScreen() {
     const {id:orderId} = useParams()
     const {data:order, refetch, isLoading, isError} = useGetOrderDetailsQuery(orderId)
-    // console.log(order)
+    const [deliverOrder, {isLoading:loadingDeliver}] = useDeliverOrderMutation()
+    console.log(order)
     const {userInfo} = useSelector((state) => state.auth)
     
     const [payOrder, {isLoading:loadingPay}] = usePayOrderMutation()
@@ -84,6 +91,16 @@ export default function OrderScreen() {
             return orderId
         })
     }
+
+    const deliveredHandler = async() => {
+        try {
+            await deliverOrder(orderId)
+            refetch()
+            toast.success('Order delivered')
+        } catch (err) {
+            toast.error(err?.data?.message || err.message)
+        }
+    }
     
     return isLoading ? <Loader /> : isError ? <Message variant='danger' /> : (
         <>
@@ -98,7 +115,7 @@ export default function OrderScreen() {
                         <p><strong>Address:</strong> {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
                         {order.isDelivered ? (
                             <Message variant='success'>
-                                Delivered on: {order.derliveredAt}
+                                Delivered on: {order.deliveredAt.substring(0,10)}
                             </Message>
                         ) : (
                             <>
@@ -116,7 +133,7 @@ export default function OrderScreen() {
                         </p>
                         {order.isPaid ? (
                             <Message variant='success'>
-                                Delivered on: {order.paidAt}
+                                Delivered on: {order.paidAt.substring(0,10)}
                             </Message>
                         ) : (
                             <>
@@ -189,7 +206,16 @@ export default function OrderScreen() {
                                 )}
                             </ListGroup.Item>
                         )}
+
                         {/* mark as delivered */}
+                        {loadingDeliver && <Loader />}
+                        {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                            <ListGroup.Item>
+                                <Button type='button' className='btn btn-block' onClick={deliveredHandler}>
+                                    Mark as deliverd
+                                </Button>
+                            </ListGroup.Item>
+                        )}
                     </ListGroup>
 
                 </Card>
