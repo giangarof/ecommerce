@@ -23,17 +23,20 @@ import App from './App.jsx'
 import Home from './screens/Home.jsx'
 import ProductScreen from './screens/ProductScreen.jsx'
 import CartScreen from './screens/CartScreen.jsx'
-import LoginScreen from './screens/LoginScreen.jsx'
-import SignupScreen from './screens/SignupScreen.jsx'
-import ShippingScreen from './screens/ShippingScreen.jsx'
-import PaymentScreen from './screens/PaymentScreen.jsx'
-import PlaceOrderScreen from './screens/PlaceOrderScreen.jsx'
+import LoginScreen from './screens/user/LoginScreen.jsx'
+import SignupScreen from './screens/user/SignupScreen.jsx'
+import ShippingScreen from './screens/proccess/ShippingScreen.jsx'
+import PaymentScreen from './screens/proccess/PaymentScreen.jsx'
+import PlaceOrderScreen from './screens/proccess/PlaceOrderScreen.jsx'
 import OrderScreen from './screens/OrderScreen.jsx'
-import ProfileScreen from './screens/ProfileScreen.jsx'
+import ProfileScreen from './screens/user/ProfileScreen.jsx'
 import OrderListScreen from './screens/OrderListScreen.jsx'
-import ProductListScreenAdmin from './screens/ProductListScreenAdmin.jsx'
-import CreateProductScreen from './screens/CreateProductScreen.jsx'
-import EditProductScreen from './screens/EditProductScreen.jsx'
+
+import ProductListScreenAdmin from './screens/Admin/ProductListScreenAdmin.jsx'
+import CreateProductScreen from './screens/Admin/CreateProductScreen.jsx'
+import EditProductScreen from './screens/Admin/EditProductScreen.jsx'
+import UserListScreenAdmin from './screens/Admin/UserListScreenAdmin.jsx'
+import EditUserScreen from './screens/Admin/EditUserScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,10 +56,17 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='' element={<AdminRoute/>}>
+      {/* orders */}
         <Route path='/admin/orderlist' element={<OrderListScreen/>}/>
+
+        {/* products */}
         <Route path='/admin/productlist' element={<ProductListScreenAdmin/>}/>
         <Route path='/admin/addproduct' element={<CreateProductScreen/>}/>
         <Route path='/admin/editproduct/:id' element={<EditProductScreen/>}/>
+
+        {/* users */}
+        <Route path='/admin/userlist' element={<UserListScreenAdmin/>}/>
+        <Route path='/admin/edituser/:id' element={<EditUserScreen/>}/>
       </Route>
     </Route>
   )

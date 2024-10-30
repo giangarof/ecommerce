@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 //components
-import FormContainer from '../components/FormContainer'
-import CheckoutSteps from '../components/CheckoutSteps'
+import FormContainer from '../../components/FormContainer'
+import CheckoutSteps from '../../components/CheckoutSteps'
 
 //bootstrap
 import { Button, Col, Form } from 'react-bootstrap';
 
 //slice
-import { savePaymentMethod } from '../slices/cartSlice'
+import { savePaymentMethod } from '../../slices/cartSlice'
 
 export default function PaymentScreen() {
     const cart = useSelector((state) => state.cart)

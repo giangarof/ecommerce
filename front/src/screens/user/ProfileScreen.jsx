@@ -7,13 +7,13 @@ import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 
 //components
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Message from '../../components/Message'
+import Loader from '../../components/Loader'
 
 //slice
-import { useGetMyOrderQuery } from '../slices/orderApiSlice'
-import { useProfileMutation } from '../slices/userApiSlice'
-import { setCredentials } from '../slices/authSlice'
+import { useGetMyOrderQuery } from '../../slices/orderApiSlice'
+import { useProfileMutation } from '../../slices/userApiSlice'
+import { setCredentials } from '../../slices/authSlice'
 import { Col, Row, Form, Button, Table, Nav } from 'react-bootstrap'
 
 export default function ProfileScreen() {

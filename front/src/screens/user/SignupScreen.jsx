@@ -10,12 +10,12 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
 //components
-import FormContainer from '../components/FormContainer'
+import FormContainer from '../../components/FormContainer'
 
 //slice
-import { useRegisterMutation } from '../slices/userApiSlice'
-import { setCredentials } from '../slices/authSlice'
-import Loader from '../components/Loader'
+import { useRegisterMutation } from '../../slices/userApiSlice'
+import { setCredentials } from '../../slices/authSlice'
+import Loader from '../../components/Loader'
 
 export default function SignupScreen() {
     const [name,setName] = useState('');

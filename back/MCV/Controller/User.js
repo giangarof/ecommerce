@@ -68,7 +68,7 @@ const logOutUser = (req,res) => {
 // descriptio: list of all users
 const getAllUsers = async(req,res) => {
     const users = await User.find({})
-    res.status(200).json({users})
+    res.status(200).json(users)
 }
 
 
@@ -148,6 +148,7 @@ const UpdateUserProfileById = async(req,res) => {
         user.email = req.body.email 
         user.isAdmin = req.body.isAdmin
     }
+    await user.save()
     res.status(200).json({message:'User updated successfully!', data:user})
 }
 

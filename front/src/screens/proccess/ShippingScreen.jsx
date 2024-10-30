@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 
 //components
-import FormContainer from '../components/FormContainer';
-import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../../components/FormContainer';
+import CheckoutSteps from '../../components/CheckoutSteps';
 
 //slices
-import { saveShippingAddress } from '../slices/cartSlice';
+import { saveShippingAddress } from '../../slices/cartSlice';
 
 export default function ShippingScreen() {
     const cart = useSelector((state) => state.cart)

@@ -1,19 +1,20 @@
+//react
 import React, {useEffect, useState} from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link,useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
-//slice
-import { useGetProductByIdQuery, useUpdateProductMutation } from '../slices/productApiSlice'
 
 //bootstrap
 import { Form, Button, Row, Col } from 'react-bootstrap'
 
 //components
-import FormContainer from '../components/FormContainer'
-import Loader from '../components/Loader'
-import Message from '../components/Message'
+import FormContainer from '../../components/FormContainer'
+import Loader from '../../components/Loader'
+import Message from '../../components/Message'
 
-export default function EditProductScreen() {
+//slices
+import { useCreateProductMutation } from '../../slices/productApiSlice'
+
+export default function CreateProductScreen() {
     const [name,setName] = useState('');
     const [author,setAuthor] = useState('');
     const [price,setPrice] = useState('');
@@ -22,12 +23,8 @@ export default function EditProductScreen() {
     const [countInStock, setCountInStock] = useState('');
     const [image,setImage] = useState('');
 
+    const [createProduct, {isLoading, isError}] = useCreateProductMutation()
     const navigate = useNavigate()
-
-    const {id} = useParams();
-    const {data:product, isLoading, isError} = useGetProductByIdQuery(id)
-
-    const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
 
     const uploadFileHandler = (e) => {
         const file = e.target.files[0]
@@ -35,43 +32,31 @@ export default function EditProductScreen() {
         // console.log(file)
     }
 
-    const submitHandler = async(e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const res = await updateProduct({
-                id,
-                name,
-                author,
-                price,
-                image,
-                category,
-                description,
-                countInStock,
-            }).unwrap();
-            toast.success('Product updated successfully!');
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('author', author);
+            formData.append('price', price);
+            formData.append('description', description);
+            formData.append('category', category);
+            formData.append('countInStock', countInStock);
+            formData.append('image', image); // Attach the file
+    
+            const res = await createProduct(formData).unwrap();
+            toast.success('Product created!');
             navigate('/admin/productlist');
+            // console.log(res);
         } catch (err) {
             console.log(err);
             toast.error(err?.data?.message || err.message);
         }
-    }
+    };
 
-    useEffect(() => {
-        if (product) {
-            setName(product.name);
-            setDescription(product.description);
-            setPrice(product.price);
-            setCategory(product.category);
-            setAuthor(product.author);
-            setCountInStock(product.countInStock);
-            setImage(product.image);
-        }
-      }, [product]);
-
-  return (
-    <>
-            {loadingUpdate && <Loader />}
-            {isLoading ? <Loader/> : isError ? <Message variant='danger'>{isError}</Message> : (
+    return (
+        <>
+            {isLoading ? <Loader/> :isError ? <Message variant='danger'>{isError}</Message> : (
                 <FormContainer>
                     <h1>Book Form</h1>
                     <Form onSubmit={submitHandler}>
@@ -88,7 +73,7 @@ export default function EditProductScreen() {
                             <Form.Label>Description</Form.Label>
                             <Form.Control
                                 type='description'
-                                placeholder={description}
+                                placeholder='Enter book`s description'
                                 value={description}
                                 onChange={(e) =>setDescription(e.target.value)}>
                             </Form.Control>
@@ -111,7 +96,7 @@ export default function EditProductScreen() {
                                 onChange={(e) =>setAuthor(e.target.value)}>
                             </Form.Control>
                         </Form.Group>
-                        <Form.Group controlId='brand' className='my-3'>
+                        <Form.Group controlId='category' className='my-3'>
                             <Form.Label>Category</Form.Label>
                             <Form.Control
                                 type='brand'
@@ -138,11 +123,11 @@ export default function EditProductScreen() {
                             </Form.Control>
                         </Form.Group>
                         
-                        <Button type='submit' variant='primary' className='mt-2'>Update Book</Button>
+                        <Button type='submit' variant='primary' className='mt-2'>Add Book</Button>
                         {isLoading && <Loader/>}
                     </Form>
                 </FormContainer>
             )}
         </>
-  )
+    )
 }

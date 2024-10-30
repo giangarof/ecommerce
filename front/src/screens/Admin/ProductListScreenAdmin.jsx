@@ -8,11 +8,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import {LinkContainer} from 'react-router-bootstrap'
 
 //components
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Message from '../../components/Message'
+import Loader from '../../components/Loader'
 
 //slice
-import { useDeleteProductMutation, useGetProductsQuery } from '../slices/productApiSlice'
+import { useDeleteProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
