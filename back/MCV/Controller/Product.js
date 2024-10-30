@@ -80,7 +80,7 @@ const updateProduct = async(req,res) => {
             product.price= req.body.price
             product.countInStock= req.body.countInStock
             await product.save()
-            console.log(product)
+            // console.log(product)
         res.status(200).json({message:`Successfully updated!`, product:product})
     }
 }
@@ -106,11 +106,47 @@ const getTopProducts = (req,res) => {
     res.status(200).json({message:'Top 3'})
 }
 
+
+//Reviews
+
+//create
+const createReview = async() => {
+    const {rating,comment} = req.body;
+    const product = await Product.findById(req.params.id)
+    if(!product){
+        res.status(404).json({message:'product doesn`t exist'})
+    } else {
+        const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user.i_id.toString())
+        if(alreadyReviewed){
+            res.status(400).json({message:`You can review only once.`})
+        }
+        const review = {
+            name: req.user.name,
+            rating: Number(String),
+            comment,
+            user: req.user._id
+        }
+
+        product.reviews.push(review);
+        product.numReviews = product.reviews.length;
+        product.rating = product.reviews.reduce((acc,rev) => acc + rev.rating, 0) / product.reviews.length
+        await product.save()
+        res.status(201).json({message:`Review added`})
+    }
+}
+
+//delete
+// const deleteReview = () => {
+    
+// }
+
 export{
     getProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
-    getTopProducts
+    getTopProducts,
+    createReview,
+    
 }
