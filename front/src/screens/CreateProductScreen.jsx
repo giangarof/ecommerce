@@ -1,12 +1,13 @@
 //react
 import React, {useEffect, useState} from 'react'
 import { Link,useLocation, useNavigate } from 'react-router-dom'
-
-import FormContainer from '../components/FormContainer'
-import { Form, Button, Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
+//bootstrap
+import { Form, Button, Row, Col } from 'react-bootstrap'
+
 //components
+import FormContainer from '../components/FormContainer'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 
@@ -95,8 +96,8 @@ export default function CreateProductScreen() {
                                 onChange={(e) =>setAuthor(e.target.value)}>
                             </Form.Control>
                         </Form.Group>
-                        <Form.Group controlId='brand' className='my-3'>
-                            <Form.Label>Brand</Form.Label>
+                        <Form.Group controlId='category' className='my-3'>
+                            <Form.Label>Category</Form.Label>
                             <Form.Control
                                 type='brand'
                                 placeholder='Enter book`s brand'

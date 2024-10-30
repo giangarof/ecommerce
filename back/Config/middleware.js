@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 import User from '../MCV/Model/User.js';
 
-const notFound = (req,res,next) => {
+export const notFound = (req,res,next) => {
     const error = new Error(`not Found - ${req.originalUrl}`)
     res.status(404)
     next(error)
 }
 
-const errorHandler = (err,req,res,next) => {
+export const errorHandler = (err,req,res,next) => {
     let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     let message = err.message;
 
@@ -23,24 +23,19 @@ const errorHandler = (err,req,res,next) => {
     })
 }
 
-const asyncHandler = fn => (req,res,next) => {
+export const asyncHandler = fn => (req,res,next) => {
     Promise.resolve(fn(req,res,next)).catch(next)
 }
 
-const protect = asyncHandler(async(req,res,next) => {
+export const protect = asyncHandler(async(req,res,next) => {
     let token;
     // Read the jwt from the cookie
     token = req.cookies.jwt;
-    // console.log(req)
     
     if(token){
         try {
             const decoded = jwt.verify(token, process.env.SECRET)
             req.user = await User.findById(decoded.userId).select('-password')
-            req.user = decoded;
-            // console.log(decoded)
-            // console.log(req.user)
-            res.status(200)
             next()
         } catch (error) {
             console.log(error)
@@ -54,19 +49,19 @@ const protect = asyncHandler(async(req,res,next) => {
     }
 })
 
-const admin = (req, res, next) => {
+export const admin = (req, res, next) => {
     if (req.user && req.user.isAdmin) {
-      next();
+        next();
     } else {
       res.status(401);
       throw new Error('Not authorized as an admin');
     }
   };
 
-export {
-    notFound,
-    errorHandler,
-    asyncHandler,
-    protect,
-    admin
-}
+// export {
+//     notFound,
+//     errorHandler,
+//     asyncHandler,
+//     protect,
+//     admin
+// }

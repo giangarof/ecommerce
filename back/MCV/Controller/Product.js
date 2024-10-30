@@ -29,9 +29,12 @@ const getProductById = async(req,res) => {
 // create
 // user can create a new product
 const createProduct = async(req,res) => {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
     const product = new Product(req.body)
-    // console.log(user)
+
+    // console.log(`req.user:::`, typeof(req.user.userId))
+    console.log(`user data: ${user}`)
+
     product.image = req.files.map(f => ({
         url: f.path, 
         filename: f.filename, 
@@ -39,8 +42,8 @@ const createProduct = async(req,res) => {
     }));
     product.user = user
     const created = await product.save()
-    // console.log(req.user)
-    res.status(200).json(product)
+
+    res.status(201).json(product)
 }
 
 //update
@@ -77,6 +80,7 @@ const updateProduct = async(req,res) => {
             product.price= req.body.price
             product.countInStock= req.body.countInStock
             await product.save()
+            console.log(product)
         res.status(200).json({message:`Successfully updated!`, product:product})
     }
 }

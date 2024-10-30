@@ -18,7 +18,7 @@ import { toast } from 'react-toastify'
 
 export default function ProductListScreenAdmin() {
 
-    const {data:products, isLoading, error, refetch} = useGetProductsQuery()
+    const {data:products, refetch, isLoading, error,} = useGetProductsQuery()
     const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
     
