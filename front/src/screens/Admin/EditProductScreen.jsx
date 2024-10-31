@@ -38,16 +38,17 @@ export default function EditProductScreen() {
     const submitHandler = async(e) => {
         e.preventDefault();
         try {
-            const res = await updateProduct({
-                id,
-                name,
-                author,
-                price,
-                image,
-                category,
-                description,
-                countInStock,
-            }).unwrap();
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('name', name);
+            formData.append('author', author);
+            formData.append('price', price);
+            formData.append('description', description);
+            formData.append('category', category);
+            formData.append('countInStock', countInStock);
+            formData.append('image', image); // Attach the file
+            const res = await updateProduct(formData).unwrap();
+            console.log(res)
             toast.success('Product updated successfully!');
             navigate('/admin/productlist');
         } catch (err) {

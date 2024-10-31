@@ -9,10 +9,13 @@ import Message from '../components/Message.jsx'
 
 //slice
 import { useGetProductsQuery } from '../slices/productApiSlice.js'
+import { useParams } from 'react-router-dom'
 
 
 export default function Home() {
-    const {data:products, isLoading, isError} = useGetProductsQuery()
+    const {keyword} = useParams()
+    console.log(keyword)
+    const {data:products, isLoading, isError} = useGetProductsQuery({keyword})
    
   return (
     <>

@@ -5,7 +5,10 @@ import User from "../Model/User.js"
 // description: list all products
 const getProducts = async(req,res) => {
     try {
-        const product = await Product.find({})
+        const keyword = req.query.keyword ? {name: {$regex: req.query.keyword, $options: 'i'}} : {}
+        // const products = await Product.countDocuments({...keyword})
+        const product = await Product.find({...keyword})
+
         if(!product){
             res.status(404).json({message:'No products'})
         }

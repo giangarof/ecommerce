@@ -15,12 +15,13 @@ import Loader from '../../components/Loader'
 import { useDeleteProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
 
 export default function ProductListScreenAdmin() {
-
-    const {data:products, refetch, isLoading, error,} = useGetProductsQuery()
-    const [deleteProduct, { isLoading: loadingDelete }] =
-    useDeleteProductMutation();
+    const {keyword} = useParams()
+    const {data:products, refetch, isLoading, error,} = useGetProductsQuery({keyword})
+    const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
+    // console.log(products)
     
     const deleteHandler = async(id) => {
         if (window.confirm('Are you sure')){
