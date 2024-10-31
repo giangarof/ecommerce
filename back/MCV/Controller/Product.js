@@ -105,9 +105,16 @@ const deleteProduct = async(req,res) => {
 
 // top products
 // top 3 based in rating
-const getTopProducts = (req,res) => {
-    res.status(200).json({message:'Top 3'})
+const getTopProducts = async(req,res) => {
+    const products = await Product.find({}).sort({rating:-1}).limit(3)
+
+    if(products){
+        res.status(200).json(products)
+    }
 }
+
+
+
 
 
 //Reviews

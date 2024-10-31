@@ -51,3 +51,8 @@ main {
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
   }
+
+.image-size{
+  width: 400px;
+  height: 500px;
+}
