@@ -7,9 +7,9 @@ import Rating from './Rating';
 
 export default function Product({product}) {
   return (
-    <Card className='my-3 p-3 rounded'>
+    <Card className='my-3 p-3 rounded fluid' >
         <Link to={`/product/${product._id}`}>
-            <Card.Img src={product.image[0]?.url} variant='top'/>
+            <Card.Img src={product.image[0]?.url} variant='top' alt={product.name} style={{height:'300px'}}/>
         </Link>
         <Card.Body>
             <Link to={`/product/${product._id}`}>

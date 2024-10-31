@@ -110,19 +110,20 @@ const getTopProducts = (req,res) => {
 //Reviews
 
 //create
-const createReview = async() => {
+const createReview = async(req,res) => {
     const {rating,comment} = req.body;
     const product = await Product.findById(req.params.id)
     if(!product){
         res.status(404).json({message:'product doesn`t exist'})
     } else {
-        const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user.i_id.toString())
+        const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString())
         if(alreadyReviewed){
-            res.status(400).json({message:`You can review only once.`})
+            res.status(400)
+            throw new Error(`You can review only once.`)
         }
         const review = {
             name: req.user.name,
-            rating: Number(String),
+            rating: Number(rating),
             comment,
             user: req.user._id
         }
@@ -136,9 +137,49 @@ const createReview = async() => {
 }
 
 //delete
-// const deleteReview = () => {
+const deleteReview = async (req, res) => {
+    try {
+      const { id, idreview } = req.params;
+  
+      // Assuming you have the user ID from the request (e.g., from a token)
+      const userId = req.user._id; // Adjust this according to how you retrieve the authenticated user's ID
     
-// }
+      // Find the product by ID
+      const product = await Product.findById(id);
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      // Find the review index in the reviews array
+      const reviewIndex = product.reviews.findIndex((review) => review._id.toString() === idreview);
+      
+      if (reviewIndex === -1) {
+        return res.status(400).json({ message: 'This review ID does not exist' });
+      }
+  
+      // Check if the user is the one who wrote the review
+      const review = product.reviews[reviewIndex];
+      if (review.user.toString() !== userId.toString()) {
+        return res.status(403).json({ message: 'You are not authorized to delete this review' });
+      } else {
+
+          // Remove the review from the reviews array
+          product.reviews.splice(reviewIndex, 1);
+      
+          // Update numReviews and rating
+          product.numReviews = product.reviews.length;
+          product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / (product.numReviews > 0 ? product.numReviews : 1); // Avoid division by zero
+      
+          // Save the updated product
+          await product.save();
+      
+          res.status(200).json({ message: 'Review deleted successfully' });
+      }
+  
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
 
 export{
     getProducts,
@@ -148,5 +189,6 @@ export{
     deleteProduct,
     getTopProducts,
     createReview,
+    deleteReview
     
 }

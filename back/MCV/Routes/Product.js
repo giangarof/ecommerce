@@ -1,5 +1,5 @@
 import express from "express";
-import { createProduct, createReview, deleteProduct, getProductById, getProducts, getTopProducts, updateProduct } from "../Controller/Product.js";
+import { createProduct, createReview, deleteProduct, deleteReview, getProductById, getProducts, getTopProducts, updateProduct } from "../Controller/Product.js";
 import { asyncHandler, protect, admin } from "../../Config/middleware.js";
 import { multerProduct } from "../../Config/multer.js";
 
@@ -17,6 +17,7 @@ router.get('/top', asyncHandler(getTopProducts))
 
 
 //reviews
-router.post('/addreview', protect, asyncHandler(createReview))
+router.post('/:id/addreview', protect, asyncHandler(createReview))
+router.delete('/:id/deletereview/:idreview', protect, asyncHandler(deleteReview))
 
 export default router
