@@ -32,6 +32,17 @@ app.use('/api/user', User)
 app.use('/api/order', Order)
 app.get('/api/config/paypal', (req,res) => res.send({clientId: process.env.PAYPAL_CLIENT_ID}))
 
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname,'/front/build')))
+    app.get('*', (req,res) => 
+    res.sendFile(path.resolve(__dirname, 'front', 'dist', 'index.html'))
+    )
+} else{
+    app.get('/', (req,res) => {
+        res.send("API is running")
+    })
+}
+
 // error handler middleware
 app.use(notFound)
 app.use(errorHandler)
